@@ -12,7 +12,7 @@ const postController = new PostController(postService);
 postRouter.get('/', postController.getAllPosts.bind(postController));
 postRouter.get('/search', postController.searchPosts.bind(postController));
 postRouter.get('/tags', postController.getPostsByTag.bind(postController)); 
-postRouter.get('/searchByTag', postController.searchPostsByTags.bind(postController));
+postRouter.get('/searchByTag', postController.searchPostsByTag.bind(postController));
 postRouter.get('/:id', postController.getPostById.bind(postController));
 
 

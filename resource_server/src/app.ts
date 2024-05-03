@@ -6,6 +6,7 @@ import { errorHandler } from './utils/ErrorHandler';
 import config from './configs/app';
 import morgan from 'morgan';
 import { authenticateToken } from './middleware/authMiddleware';
+import tagRouter from './routes/tagRoutes';
 
 const app: Express = express();
 
@@ -25,6 +26,7 @@ app.use(cors(corsOptions));
 app.use(morgan('dev'));
 
 app.use('/posts', authenticateToken, postRouter);
+app.use('/tags', authenticateToken, tagRouter);
 app.use(errorHandler);
 
 
