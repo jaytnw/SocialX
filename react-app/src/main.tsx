@@ -6,27 +6,43 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Login from './Login.tsx';
-import Register from './Register.tsx';
+import Login from './pages/Login.tsx';
+import Register from './pages/Register.tsx';
 import { ToastContainer } from 'react-toastify';
+import PrivateRoute from './routes/PrivateRoute.tsx';
+import Post from './pages/Post.tsx';
+
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: (
+      <PrivateRoute>
+        <App />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/post/:postId",
+    element: (
+      <PrivateRoute>
+        <Post />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <Register/>,
+    element: <Register />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      <RouterProvider router={router} />
-      <ToastContainer/>
+    <RouterProvider router={router} />
+    <ToastContainer />
   </React.StrictMode>,
 )

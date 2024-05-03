@@ -15,7 +15,7 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
     }
 
     jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-        console.log(jwt.decode(token));
+        // console.log(jwt.decode(ctoken));
         if (err) {
             const response = new ApiResponse('Forbidden', 'error');
             res.status(403).json(response);

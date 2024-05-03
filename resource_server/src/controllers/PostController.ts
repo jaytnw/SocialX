@@ -12,7 +12,16 @@ export class PostController {
 
     async getAllPosts(req: Request, res: Response): Promise<void> {
         try {
-            const posts = await this.postService.getAllPosts();
+            const { pageNumber, pageSize } = req.query;
+
+            if (!pageNumber || !pageSize || pageNumber === '' || pageSize === '') {
+                const response = new ApiResponse('Both pageNumber and pageSize are required and cannot be blank', 'error');
+                res.status(400).json(response);
+                return;
+            }
+
+            
+            const posts = await this.postService.getAllPosts(parseInt(pageNumber as string), parseInt(pageSize as string));
             if (!posts) {
                 const response = new ApiResponse('Failed to fetch posts', 'error');
                 res.status(500).json(response);
@@ -27,11 +36,19 @@ export class PostController {
             res.status(500).json(response);
         }
     }
+    
 
 
     async getPostById(req: Request, res: Response): Promise<void> {
         try {
             const postId = req.params.id;
+
+            if (!postId || postId === '') {
+                const response = new ApiResponse('Post ID is required and cannot be blank', 'error');
+                res.status(400).json(response);
+                return;
+            }
+
             const post = await this.postService.getPostById(postId);
             if (!post) {
                 const response = new ApiResponse('Post not found', 'error');
@@ -51,7 +68,13 @@ export class PostController {
     async getPostsByTag(req: Request, res: Response): Promise<void> {
         try {
             const tagName: string[] = req.query.tagName?.toString().split(',') || [];
-            console.log(tagName);
+
+            if (!tagName || tagName.length === 0 || tagName.some(tag => tag.trim() === '')) {
+                const response = new ApiResponse('Tag name is required and cannot be blank', 'error');
+                res.status(400).json(response);
+                return;
+            }
+         
             const post = await this.postService.getPostsByTags(tagName);
             if (!post) {
                 const response = new ApiResponse('Tag not found', 'error');
@@ -72,6 +95,14 @@ export class PostController {
         try {
             const keyword: string = req.query.keyword?.toString() || '';
             const sort: string = req.query.sort?.toString() || 'desc';
+         
+
+            if (!keyword || keyword.trim() === '') {
+                const response = new ApiResponse('Keyword is required and cannot be blank', 'error');
+                res.status(400).json(response);
+                return;
+            }
+
             const posts = await this.postService.searchPosts(keyword, sort);
 
             if (!posts) {
@@ -93,7 +124,23 @@ export class PostController {
         try {
             const keyword: string = req.query.keyword?.toString() || '';
             const tagName: string[] = req.query.tagName?.toString().split(',') || [];
+
+            if (!keyword || keyword.trim() === '') {
+                const response = new ApiResponse('Keyword is required and cannot be blank', 'error');
+                res.status(400).json(response);
+                return;
+            }
+    
+       
+            if (!tagName || tagName.length === 0 || tagName.some(tag => tag.trim() === '')) {
+                const response = new ApiResponse('Tag name is required and cannot be blank', 'error');
+                res.status(400).json(response);
+                return;
+            }
+
             const posts = await this.postService.searchPostsByTags(keyword, tagName);
+
+
 
             if (!posts) {
                 const response = new ApiResponse('Tag not found', 'error');

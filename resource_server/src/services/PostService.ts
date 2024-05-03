@@ -22,20 +22,24 @@ export class PostService {
         };
     }
 
-    async getAllPosts(): Promise<Post[]> {
-        try {
-            const posts = await prisma.post.findMany({
-                include: {
-                    tags: true,
-                },
-            });
-            
-            return Promise.all(posts.map(this.mapPost));
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-            throw new Error('Failed to fetch posts');
-        }
-    }
+    async getAllPosts(pageNumber: number, pageSize: number): Promise<Post[]> {
+      try {
+          const skip = (pageNumber - 1) * pageSize;
+          const posts = await prisma.post.findMany({
+              include: {
+                  tags: true,
+              },
+              skip,
+              take: pageSize,
+          });
+          
+          return Promise.all(posts.map(this.mapPost));
+      } catch (error) {
+          console.error('Error fetching posts:', error);
+          throw new Error('Failed to fetch posts');
+      }
+  }
+  
 
 
     async getPostById(id: string): Promise<Post | null> {

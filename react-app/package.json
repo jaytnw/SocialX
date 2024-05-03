@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/node": "^20.12.8",
+    "@types/react-html-parser": "^2.0.6",
+    "dayjs": "^1.11.11",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-html-parser": "^2.0.2",
     "react-router-dom": "^6.23.0",
     "react-toastify": "^10.0.5",
     "sort-by": "^1.2.0"
