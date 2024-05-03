@@ -1,0 +1,48 @@
+version: '3'
+services: 
+  authentication_server:
+    container_name: authentication_server
+    build: ./authentication_server
+    ports:
+      - "5001:5001"
+    depends_on:
+      - authentication_db
+    restart: always
+
+  authentication_db :
+    container_name: "authentication_db"
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - "authentication_db:/var/lib/postgresql/data"
+    env_file:
+      - ./authentication_db.env
+
+  resource_server:
+    container_name: resource_server
+    build: ./resource_server
+    ports:
+      - "5002:5002"
+
+  resource_db :
+    container_name: "resource_db"
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    volumes:
+      - "resource_db_volume:/var/lib/postgresql/data"
+    env_file:
+      - ./resource_db.env
+
+  react_app :
+    container_name: react_app
+    build: ./resource_server
+    ports:
+      - "8080:5173"
+
+volumes:
+  authentication_db:
+    driver: local
+  resource_db_volume:
+    driver: local
