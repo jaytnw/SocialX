@@ -83,7 +83,7 @@ class AuthController {
                 return;
 
             } else {
-                const response = new ApiResponse('Register Success', 'ok');
+                const response = new ApiResponse('Register success, please login', 'ok');
                 // response.accessToken = result.accessToken;
                 // response.refreshToken = result.refreshToken;
                 res.status(200).json(response);
