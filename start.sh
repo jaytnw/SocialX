@@ -1,9 +1,6 @@
 echo "Start SocialX"
 docker-compose up -d
 
-echo "Wait Database initialization for 5 seconds..."
-sleep 5
-
 docker-compose run authentication_server sh -c "npx prisma migrate dev --name init"
 
 
