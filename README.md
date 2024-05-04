@@ -4,6 +4,7 @@ First, run the development server:
 
 ```bash
 git clone https://github.com/jaytnw/SocialX.git
+cd SocialX
 sh start.sh 
 ```
 

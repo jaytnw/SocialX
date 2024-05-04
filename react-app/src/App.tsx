@@ -21,12 +21,17 @@ function App(): JSX.Element {
   const [tagName, setTagName] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('');
 
+  const [errorMessageFetchData, setErrorMessageFetchData] = useState<string>('');
+
 
   const refreshTokenIntervalTime = 5 * 60 * 1000; 
 
   const fetchPosts = async () => {
+    setLoading(true);
+    setErrorMessageFetchData('')
+
     try {
-      setLoading(true);
+   
       const token = authService.getAccessToken();
       const response = await fetch(
         `${url.base_resource_url}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sortBy}`,
@@ -38,11 +43,16 @@ function App(): JSX.Element {
       );
 
       if (!response.ok) {
+        const responseData = await response.json();
+        setErrorMessageFetchData(responseData.message)
+        setPosts([]);
+        setLoading(false);
         throw new Error('Failed to fetch posts');
       }
 
       const responseData = await response.json();
       setPosts(responseData.data);
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -52,11 +62,13 @@ function App(): JSX.Element {
 
 
   const searchByTag = async (keyword: string, tagName: string) => {
+    setLoading(true);
     setClickSearchByTag(true)
     setKeyword(keyword)
     setTagName(tagName)
+    setErrorMessageFetchData('')
     try {
-      setLoading(true);
+     
       const token = authService.getAccessToken();
 
       const queryString = `keyword=${keyword}&tagName=${tagName}&sort=${sortBy}`;
@@ -71,6 +83,10 @@ function App(): JSX.Element {
       );
 
       if (!response.ok) {
+        const responseData = await response.json();
+        setErrorMessageFetchData(responseData.message)
+        setPosts([]);
+        setLoading(false);
         throw new Error('Failed to fetch posts');
       }
 
@@ -92,7 +108,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     authService.refreshToken(navigate);
-    
+
     const refreshTokenInterval = setInterval(() => {
       authService.refreshToken(navigate);
     }, refreshTokenIntervalTime);
@@ -130,6 +146,7 @@ function App(): JSX.Element {
 
 
         <div className='mt-5 flex justify-center align-middle'>
+        {errorMessageFetchData !== '' ? errorMessageFetchData : null}
           {loading ? (
             <LoadingSpinner />
           ) : (
