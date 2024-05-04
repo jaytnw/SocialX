@@ -1,6 +1,7 @@
 
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from "helmet";
 import postRouter from './routes/postRoutes';
 import { errorHandler } from './utils/ErrorHandler';
 import config from './configs/app';
@@ -11,6 +12,8 @@ import tagRouter from './routes/tagRoutes';
 const app: Express = express();
 
 app.use(express.json());
+app.use(helmet());
+
 
 const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173','http://localhost:4173', 'http://127.0.0.1:4173','http://localhost:8080', 'http://127.0.0.1:8080'];
 const corsOptions = {
