@@ -91,6 +91,8 @@ function App(): JSX.Element {
   }, [pageNumber, pageSize, sortBy]);
 
   useEffect(() => {
+    authService.refreshToken(navigate);
+    
     const refreshTokenInterval = setInterval(() => {
       authService.refreshToken(navigate);
     }, refreshTokenIntervalTime);
