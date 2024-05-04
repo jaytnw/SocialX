@@ -12,7 +12,7 @@ export class TagService {
             }
         });
 
-        return tags.map(tag => tag.name);
+        return tags.map((tag: any) => tag.name);
     } catch (error) {
         console.error('Error fetching tags:', error);
         throw new Error('Failed to fetch tags');

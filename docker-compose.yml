@@ -1,5 +1,5 @@
 version: '3'
-services: 
+services:
   authentication_server:
     container_name: authentication_server
     build: ./authentication_server
@@ -8,8 +8,14 @@ services:
     depends_on:
       - authentication_db
     restart: always
+    networks:
+      - socialx_network
+    command: >
+      sh -c "while ! nc -z -w1 localhost:5432; do sleep 1; done;
+             npx prisma migrate dev --name init &&
+             yarn seed"
 
-  authentication_db :
+  authentication_db:
     container_name: "authentication_db"
     image: postgres:latest
     ports:
@@ -17,29 +23,47 @@ services:
     volumes:
       - "authentication_db:/var/lib/postgresql/data"
     env_file:
-      - ./authentication_db.env
+      - ./authentication_server/authentication_db.env
+    networks:
+      - socialx_network
 
   resource_server:
     container_name: resource_server
     build: ./resource_server
+    depends_on:
+      - resource_db
+    restart: always
     ports:
       - "5002:5002"
+    networks:
+      - socialx_network
+    command: >
+      sh -c "while ! nc -z -w1 localhost:5433; do sleep 1; done;
+             npx prisma migrate dev --name init"
 
-  resource_db :
+  resource_db:
     container_name: "resource_db"
     image: postgres:latest
     ports:
-      - "5433:5432"
+      - "5433:5432" 
     volumes:
       - "resource_db_volume:/var/lib/postgresql/data"
     env_file:
-      - ./resource_db.env
+      - ./resource_server/resource_db.env
+    networks:
+      - socialx_network
 
-  react_app :
+  react_app:
     container_name: react_app
-    build: ./resource_server
+    build: ./react-app
     ports:
-      - "8080:5173"
+      - "8080:4173"
+    networks:
+      - socialx_network
+
+networks:
+  socialx_network:
+   
 
 volumes:
   authentication_db:

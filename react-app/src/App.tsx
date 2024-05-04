@@ -16,7 +16,7 @@ function App(): JSX.Element {
   const [posts, setPosts] = useState<IPostCard[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [keyword, setKeyword] = useState<string>('');
   const [tagName, setTagName] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('');

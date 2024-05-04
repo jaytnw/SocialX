@@ -1,13 +1,17 @@
-FROM node:22
+FROM node:22-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN yarn
 
-COPY ./dist ./
+COPY . .
 
-EXPOSE 3000
+RUN yarn build
 
-CMD [ "node","app.js" ]
+RUN npx prisma generate
+
+EXPOSE 5002
+
+CMD [ "yarn", "start"]
