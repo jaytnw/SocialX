@@ -5,6 +5,8 @@ import prisma from '../services/Database';
 async function main() {
     for (const post of Object.values(jsonData)) {
         const { title, content, postedAt, postedBy, tags } = post;
+
+        console.log("seed ===>>> ",title)
   
         await prisma.post.create({
             data: {

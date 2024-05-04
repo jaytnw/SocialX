@@ -5,15 +5,10 @@ services:
     build: ./authentication_server
     ports:
       - "5001:5001"
-    depends_on:
-      - authentication_db
     restart: always
     networks:
       - socialx_network
-    command: >
-      sh -c "while ! nc -z -w1 localhost:5432; do sleep 1; done;
-             npx prisma migrate dev --name init &&
-             yarn seed"
+
 
   authentication_db:
     container_name: "authentication_db"
@@ -30,16 +25,12 @@ services:
   resource_server:
     container_name: resource_server
     build: ./resource_server
-    depends_on:
-      - resource_db
     restart: always
     ports:
       - "5002:5002"
     networks:
       - socialx_network
-    command: >
-      sh -c "while ! nc -z -w1 localhost:5433; do sleep 1; done;
-             npx prisma migrate dev --name init"
+
 
   resource_db:
     container_name: "resource_db"

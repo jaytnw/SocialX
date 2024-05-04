@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22
 
 WORKDIR /app
 
@@ -13,5 +13,6 @@ RUN yarn build
 RUN npx prisma generate
 
 EXPOSE 5002
+
 
 CMD [ "yarn", "start"]
