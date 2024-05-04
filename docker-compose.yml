@@ -5,9 +5,11 @@ services:
     build: ./authentication_server
     ports:
       - "5001:5001"
-    restart: always
     networks:
       - socialx_network
+    restart: always
+    depends_on:
+      - authentication_db
 
 
   authentication_db:
@@ -25,11 +27,13 @@ services:
   resource_server:
     container_name: resource_server
     build: ./resource_server
-    restart: always
     ports:
       - "5002:5002"
     networks:
       - socialx_network
+    restart: always
+    depends_on:
+      - resource_db
 
 
   resource_db:
