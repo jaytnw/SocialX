@@ -40,7 +40,7 @@ export const authService = {
 
       if (!response.ok) {
         authService.logout(navigateTo);
-        // throw new Error('Failed to refresh tokens');
+        throw new Error('Failed to refresh tokens');
       }
 
       const data = await response.json();

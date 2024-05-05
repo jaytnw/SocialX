@@ -47,7 +47,7 @@ function App(): JSX.Element {
         setErrorMessageFetchData(responseData.message)
         setPosts([]);
         setLoading(false);
-        // throw new Error('Failed to fetch posts');
+        throw new Error('Failed to fetch posts');
       }
 
       const responseData = await response.json();
@@ -87,7 +87,7 @@ function App(): JSX.Element {
         setErrorMessageFetchData(responseData.message)
         setPosts([]);
         setLoading(false);
-        // throw new Error('Failed to fetch posts');
+        throw new Error('Failed to fetch posts');
       }
 
       const responseData = await response.json();

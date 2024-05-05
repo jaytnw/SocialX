@@ -34,14 +34,14 @@ const Post: React.FC = () => {
                 );
 
                 if (!response.ok) {
-                    // throw new Error('Failed to fetch post data');
+                    throw new Error('Failed to fetch post data');
                 }
                 const postData = await response.json();
                 setPost(postData.data[0]);
 
 
             } catch (error) {
-                console.error('Error fetching post data:', error);
+                // console.error('Error fetching post data:', error);
             }
         };
 
