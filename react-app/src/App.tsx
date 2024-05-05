@@ -47,14 +47,14 @@ function App(): JSX.Element {
         setErrorMessageFetchData(responseData.message)
         setPosts([]);
         setLoading(false);
-        throw new Error('Failed to fetch posts');
+        // throw new Error('Failed to fetch posts');
       }
 
       const responseData = await response.json();
       setPosts(responseData.data);
 
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -87,13 +87,13 @@ function App(): JSX.Element {
         setErrorMessageFetchData(responseData.message)
         setPosts([]);
         setLoading(false);
-        throw new Error('Failed to fetch posts');
+        // throw new Error('Failed to fetch posts');
       }
 
       const responseData = await response.json();
       setPosts(responseData.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }

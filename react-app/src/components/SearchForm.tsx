@@ -31,7 +31,7 @@ const SearchForm: React.FC<{ onSearch: (keyword: string, tagNames: string) => vo
             const responseData = await response.json();
             setCategories(responseData.data);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            // console.error('Error fetching categories:', error);
         } finally {
             // setLoading(false);
         }
