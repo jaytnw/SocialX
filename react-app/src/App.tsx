@@ -24,7 +24,7 @@ function App(): JSX.Element {
   const [errorMessageFetchData, setErrorMessageFetchData] = useState<string>('');
 
 
-  const refreshTokenIntervalTime = 5 * 60 * 1000;
+
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -106,16 +106,7 @@ function App(): JSX.Element {
 
   }, [pageNumber, pageSize, sortBy]);
 
-  useEffect(() => {
-    authService.refreshToken(navigate);
-
-    const refreshTokenInterval = setInterval(() => {
-      authService.refreshToken(navigate);
-    }, refreshTokenIntervalTime);
-
-
-    return () => clearInterval(refreshTokenInterval);
-  }, []);
+ 
 
 
   const handleNextPage = () => {
