@@ -34,7 +34,7 @@ const Register: React.FC = () => {
             if (!response.ok) {
 
                 const res = await response.json();
-                // throw new Error(res.message);
+                throw new Error(res.message);
 
             }
 
