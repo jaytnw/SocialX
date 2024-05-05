@@ -7,10 +7,10 @@ import IPostCard from './types/PostCard';
 import { url } from './utils/url';
 import { authService } from './services/authService';
 import LoadingSpinner from './components/LoadingSpiner';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function App(): JSX.Element {
-  const navigate = useNavigate();
+
   const [clickSearchByTag, setClickSearchByTag] = useState<boolean>(false);
 
   const [posts, setPosts] = useState<IPostCard[]>([]);
