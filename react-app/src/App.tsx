@@ -24,14 +24,14 @@ function App(): JSX.Element {
   const [errorMessageFetchData, setErrorMessageFetchData] = useState<string>('');
 
 
-  const refreshTokenIntervalTime = 5 * 60 * 1000; 
+  const refreshTokenIntervalTime = 5 * 60 * 1000;
 
   const fetchPosts = async () => {
     setLoading(true);
     setErrorMessageFetchData('')
 
     try {
-   
+
       const token = authService.getAccessToken();
       const response = await fetch(
         `${url.base_resource_url}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sortBy}`,
@@ -52,7 +52,7 @@ function App(): JSX.Element {
 
       const responseData = await response.json();
       setPosts(responseData.data);
-      
+
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -68,7 +68,7 @@ function App(): JSX.Element {
     setTagName(tagName)
     setErrorMessageFetchData('')
     try {
-     
+
       const token = authService.getAccessToken();
 
       const queryString = `keyword=${keyword}&tagName=${tagName}&sort=${sortBy}`;
@@ -113,7 +113,7 @@ function App(): JSX.Element {
       authService.refreshToken(navigate);
     }, refreshTokenIntervalTime);
 
-  
+
     return () => clearInterval(refreshTokenInterval);
   }, []);
 
@@ -146,7 +146,7 @@ function App(): JSX.Element {
 
 
         <div className='mt-5 flex justify-center align-middle'>
-        {errorMessageFetchData !== '' ? errorMessageFetchData : null}
+          {errorMessageFetchData !== '' ? errorMessageFetchData : null}
           {loading ? (
             <LoadingSpinner />
           ) : (
@@ -162,23 +162,25 @@ function App(): JSX.Element {
           )}
         </div>
 
-        <div className="flex justify-center items-center mt-5 my-5">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handlePreviousPage}
-            disabled={pageNumber === 1}
-          >
-            Previous Page
-          </button>
-          <span className="mx-2">Page {pageNumber}</span>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleNextPage}
-          >
-            Next Page
-          </button>
-        </div>
+        {errorMessageFetchData === '' ??
 
+          <div className="flex justify-center items-center mt-5 my-5">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handlePreviousPage}
+              disabled={pageNumber === 1}
+            >
+              Previous Page
+            </button>
+            <span className="mx-2">Page {pageNumber}</span>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleNextPage}
+            >
+              Next Page
+            </button>
+          </div>
+        }
       </div>
     </>
   );
